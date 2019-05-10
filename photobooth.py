@@ -1,13 +1,20 @@
 #!/usr/bin/env python
 
+# TODO
+# * Read gpio for button press
+# * Configure camera
+# * Read images from camera
+# * Control led strip
+
 import imageio
 import configparser
 import pytumblr
 import time
 import uuid
-
-
-import sys, termios, tty, os
+import sys
+import termios
+import tty
+import os
 
 
 def getch():
@@ -28,12 +35,13 @@ def create_filename():
     return str(uuid.uuid4())
 
 
-def create_gif(filenames):
+def create_gif(config, filenames):
     images = []
     for filename in filenames:
         images.append(imageio.imread(filename))
     out_filename = 'output/' + create_filename() + '.gif'
-    imageio.mimsave(out_filename, images)
+    kargs = {'duration': config['Photobooth']['gif_delay_s']}
+    imageio.mimsave(out_filename, images, **kargs)
     return out_filename
 
 
@@ -57,7 +65,7 @@ def upload_photo(config, image_paths):
 
 
 def take_pictures(num_images):
-    return []
+    return ["wat.jpg", "ilsk.jpg", "chance.jpg"]
 
 
 def print_stage(freq, totaltime):
@@ -89,12 +97,12 @@ def poll_gpio(config):
             # Check if gpio-pin is set
             do_countdown()
             num_images = 3
-            print("IMAGE")
-            continue
             images = take_pictures(num_images)
             image = None
+            moving = True
             if moving:
-                image = create_gif(images)
+                image = create_gif(config, images)
+                continue
                 upload_photo(config, image)
             else:
                 upload_photo(config, images[0])
@@ -105,6 +113,4 @@ def poll_gpio(config):
 if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read("photobooth.cfg")
-    image_path = "chance.jpg"
     poll_gpio(config)
-    upload_photo(config, image_path)

@@ -7,3 +7,4 @@ token_secret=jxKBaa3ts45hdj67XrzdN83nPSq02OSubN68x1vdfw9EN7GY5y
 [Photobooth]
 blog=yourblogname
 sleeptime=0.005
+gif_delay_s=1
