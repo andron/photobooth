@@ -1,0 +1,9 @@
+[Keys]
+consumer_key=AC7b3K34gZ608n96oafahgbrmgfhRLkdT6kAvOU7HrWysdfbFQWig
+consumer_secret=9VJdXPGmnrasdadasdhshrdtxdxJyp5Exotp27ORm74zHNECV1KF
+token_key=ZSwHarat4hjdgfsagO87sE6OmP37mE6zM1uelwSGfIFOwrOCv8V7sJ
+token_secret=jxKBaa3ts45hdj67XrzdN83nPSq02OSubN68x1vdfw9EN7GY5y
+
+[Photobooth]
+blog=yourblogname
+sleeptime=0.005
