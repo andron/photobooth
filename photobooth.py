@@ -6,16 +6,29 @@
 # * Read images from camera
 # * Control led strip
 
-import imageio
+import RPi.GPIO as GPIO
 import configparser
+import imageio
+import os
 import pytumblr
-import time
-import uuid
 import sys
 import termios
+import time
 import tty
-import os
+import uuid
 
+from signal import pause
+from gpiozero import LED, PWMLED, Button
+
+LED = PWMLED(27)
+BUTTON = Button(18)
+RELAY = LED(17)
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(RELAY, GPIO.OUT)
+
+LED.pulse()
 
 def getch():
     fd = sys.stdin.fileno()
@@ -27,8 +40,6 @@ def getch():
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
-
-button_delay = 0.2
 
 
 def create_filename():
@@ -107,7 +118,7 @@ def poll_gpio(config):
             else:
                 upload_photo(config, images[0])
 
-        time.sleep(0.005)
+        time.sleep(0.1)
 
 
 if __name__ == '__main__':
